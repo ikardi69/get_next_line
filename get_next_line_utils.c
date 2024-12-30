@@ -6,26 +6,28 @@
 /*   By: mteffahi <mteffahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:24:32 by mteffahi          #+#    #+#             */
-/*   Updated: 2024/12/29 17:31:54 by mteffahi         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:17:20 by mteffahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*result;
-	size_t	size;
+	int		size;
 
 	if (!s1)
 	{
 		s1 = (char *)malloc(1);
+        if (!s1)
+            return (NULL);
 		s1[0] = '\0';
 	}
-	if (!s2 || !s1)
-		return (NULL);
+	if (!s2)
+		return (free(s1), NULL);
 	size = ft_strlen(s1) + ft_strlen(s2);
-	result = (char *)malloc(size) + 1;
+	result = (char *)malloc(size + 1);
 	if (!result)
 		return (free(s1), NULL);
 	ft_memcpy(result, s1, ft_strlen(s1));
@@ -39,12 +41,12 @@ char	*ft_strdup(const char *s)
 	size_t	size;
 	char	*result;
 
-	size = ft_strlen(s) + 1;
-	result = (char *)malloc(size);
+	size = ft_strlen(s);
+	result = (char *)malloc(size + 1);
 	if (!result)
 		return (NULL);
-	ft_memcpy(result, s, ft_strlen(s));
-	result[ft_strlen(s)] = '\0';
+	ft_memcpy(result, s, size);
+	result[size] = '\0';
 	return (result);
 }
 

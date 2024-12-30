@@ -2,22 +2,64 @@
 #include <stdio.h>
 #include <fcntl.h>
 
+void	ft_sts_lk()
+{
+	system("leaks main");
+}
+
 int main()
 {
-	puts("zabi 9lawiiii\n");
+	// int fd = open("text.txt", O_RDONLY);
+	// if (fd < 0)
+	// {
+	// 	perror("fd failed\n");
+	// 	return 1;
+	// }
+	// char *test = get_next_line(fd);
+	// if (!test)
+	// {
+	// 	printf("test failed\n");
+	// 	close(fd);
+	// 	return 1;
+	// }
+	// printf("test = %s", test);
+	// free(test);
+	// test = get_next_line(fd);
+	// if (!test)
+	// {
+	// 	printf("test failed\n");
+	// 	close(fd);
+	// 	return 1;
+	// }
+	// printf("test = %s", test);
+	// free(test);
+	// test = get_next_line(fd);
+	// if (!test)
+	// {
+	// 	printf("test failed\n");
+	// 	close(fd);
+	// 	return 1;
+	// }
+	// printf("test = %s\n", test);
+	// free(test);
 	int fd = open("text.txt", O_RDONLY);
-	if (fd < 0)
+	char *test;
+	
+	int i = 0;
+	while (i < 3)
 	{
-		printf("fd failed\n");
-		return 1;
+		test = get_next_line(fd);
+		if (!test)
+		{
+			printf("test failed\n");
+			close(fd);
+			return 1;
+		}
+		printf("test = %s", test);
+		free(test);
+		i++;
 	}
-	char *test = get_next_line(fd);
-	if (!test)
-	{
-		printf("test failed\n");
-		return 1;
-	}
-	printf("%s\n", test);
-	//free(test);
+	printf("\n");
+	close(fd);
 	return (0);
 }
