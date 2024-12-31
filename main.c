@@ -46,7 +46,7 @@ int main()
 	char *test;
 	
 	int i = 0;
-	while (i < 3)
+	while (i < 4)
 	{
 		test = get_next_line(fd);
 		if (!test)
