@@ -5,68 +5,113 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mteffahi <mteffahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/31 20:14:10 by mteffahi          #+#    #+#             */
-/*   Updated: 2024/12/31 20:48:06 by mteffahi         ###   ########.fr       */
+/*   Created: 2025/01/01 16:20:00 by mteffahi          #+#    #+#             */
+/*   Updated: 2025/01/01 16:38:02 by mteffahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static t_fdlst	*ft_reading(t_fdlst **lst, int fd)
+static char	*ft_next_line(char *buffer)
 {
-	t_fdlst	*new;
-	int		rd;
-
-	if (!lst)
-		return (NULL);
-	new = *lst;
-	if (!new->remainder)
-	{
-		new->remainder = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (!new->remainder)
-			return (NULL);
-		rd = 1;
-		while (rd > 0)
-		{
-			rd = read(fd, new->remainder, BUFFER_SIZE);
-			if (rd <= 0)
-				break ;
-			new->remainder[rd] = '\0';
-		}
-	}
+	char	*rem;
+	int		i;
+	int		j;
+	
+	if (!buffer)
+		return (free(buffer), NULL);
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (buffer[i] == '\0')
+		return (free(buffer), NULL);
+	j = ft_strlen(buffer) - i;
+	rem = (char *)malloc(j + 1);
+	if (!rem)
+		return (free(buffer), NULL);
+	j = 0;
+	i++;
+	while (buffer[i])
+		rem[j++] = buffer[i++];
+	rem[j] = '\0';
+	return (free(buffer), rem);
 }
 
-static t_fdlst	*gt_fd_nd(t_fdlst	**lst, int fd)
+char	*ft_inc(char *bf, char *buffer, int nl, int i)
 {
-	t_fdlst		*new_node;
-	t_fdlst		*node;
-	
-	node = *lst;
-	while (node)
+	int	j;
+
+	j = 0;
+	while (j < i)
 	{
-		if (node->fd == fd)
-			return (node);
-		node = node->next;
+		bf[j] = buffer[j];
+		j++;
 	}
-	new_node = malloc(sizeof(t_fdlst));
-	if (new_node)
-		return (NULL);
-	new_node->fd = fd;
-	new_node->remainder = NULL;
-	new_node->next = *lst;
-	*lst = new_node;
-	return (new_node);
+	if (nl)
+	{
+		bf[i] = '\n';
+		i++;
+	}
+	bf[i] = '\0';
+	return (bf);
 }
 
-char	*get_next_line_bonus(int fd)
+static int	ft_nl_check(char *s)
 {
-	static t_fdlst	*fd_linked_list;
-	char			*line;
-	t_fdlst			*current;
-	
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static char	*ft_reading(char *buffer, char *remainder, int fd)
+{
+	int	rd;
+
+	rd = 1;
+	while (rd > 0)
+	{
+		rd = read(fd, buffer, BUFFER_SIZE);
+		if (rd <= 0)
+			break ;
+		buffer[rd] = '\0';
+		remainder = ft_strjoin(remainder, buffer);
+		if (!remainder)
+			return (free(buffer), NULL);
+		if (ft_nl_check(remainder))
+			break ;
+	}
+    if (rd < 0)
+        return (free(remainder), NULL);
+	return (remainder);	
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*remainder[10240];
+	char		*buffer;
+	char		*line;
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	current = gt_fd_nd(&fd_linked_list, current);
-	if (!current)
-		return (NULL);
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (free(remainder[fd]), NULL);
+	remainder[fd] = ft_reading(buffer, remainder[fd], fd);
+	free(buffer);
+    if (!remainder[fd])
+        return (NULL);
+    line = ft_nl(remainder[fd]);
+    if (!line)
+        return (free(remainder[fd]), remainder[fd] = NULL);
+	//buffer = remainder;
+	//buffer = ft_nl(buffer);
+	remainder[fd] = ft_next_line(remainder[fd]);
+	return (line);
 }

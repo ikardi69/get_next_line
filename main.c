@@ -1,4 +1,4 @@
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <stdio.h>
 #include <fcntl.h>
 
@@ -42,24 +42,79 @@ int main()
 	// }
 	// printf("test = %s\n", test);
 	// free(test);
-	int fd = open("text.txt", O_RDONLY);
-	char *test;
+	int fd1 = open("text.txt", O_RDONLY);
+	int fd2 = open("test.txt", O_RDONLY);
+	int fd3 = open("testt.txt", O_RDONLY);
+	char *test1;
+	char *test2;
+	char *test3;
 	
 	int i = 0;
-	while (i < 4)
+	while (i < 3)
 	{
-		test = get_next_line(fd);
-		if (!test)
+		if (i == 2)
+		{
+			test1 = get_next_line(fd1);
+			if (!test1)
+			{
+				printf("test failed\n");
+				close(fd1);
+				return 1;
+			}
+			printf("test = %s\n", test1);
+			free(test1);
+			test2 = get_next_line(fd2);
+			if (!test2)
+			{
+				printf("test failed\n");
+				close(fd2);
+				return 1;
+			}
+			printf("test = %s\n", test2);
+			free(test2);
+			test3 = get_next_line(fd3);
+			if (!test3)
+			{
+				printf("test failed\n");
+				close(fd3);
+				return 1;
+			}
+			printf("test = %s\n", test3);
+			free(test3);
+			break;
+		}
+		test1 = get_next_line(fd1);
+		if (!test1)
 		{
 			printf("test failed\n");
-			close(fd);
+			close(fd1);
 			return 1;
 		}
-		printf("test = %s", test);
-		free(test);
+		printf("test = %s", test1);
+		free(test1);
+		test2 = get_next_line(fd2);
+		if (!test2)
+		{
+			printf("test failed\n");
+			close(fd2);
+			return 1;
+		}
+		printf("test = %s", test2);
+		free(test2);
+		test3 = get_next_line(fd3);
+		if (!test3)
+		{
+			printf("test failed\n");
+			close(fd3);
+			return 1;
+		}
+		printf("test = %s", test3);
+		free(test3);
 		i++;
 	}
 	printf("\n");
-	close(fd);
+	close(fd1);
+	close(fd2);
+	close(fd3);
 	return (0);
 }

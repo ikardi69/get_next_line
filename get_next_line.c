@@ -6,7 +6,7 @@
 /*   By: mteffahi <mteffahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 15:03:53 by mteffahi          #+#    #+#             */
-/*   Updated: 2024/12/30 20:22:00 by mteffahi         ###   ########.fr       */
+/*   Updated: 2025/01/01 14:42:32 by mteffahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static char	*ft_reading(char *buffer, char *remainder, int fd)
 	}
     if (rd < 0)
         return (free(remainder), NULL);
-	return (remainder);
+	return (remainder);	
 }
 
 char	*get_next_line(int fd)

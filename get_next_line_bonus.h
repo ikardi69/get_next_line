@@ -1,5 +1,5 @@
-#if !defined GET_NEXT_LINE_BONUS_H
-#define GET_NEXT_LINE_BONUS_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # include <unistd.h>
 # include <stdlib.h>
 #include <stdio.h>
@@ -7,14 +7,12 @@
 #  define BUFFER_SIZE 10
 # endif
 
-typedef struct s_fdlst
-{
-	int				fd;
-	char			*remainder;
-	struct s_fdlst	*next;
-}	t_fdlst;
+char	*get_next_line(int fd);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strdup(const char *s);
+int		ft_strlen(const char *s);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+char	*ft_nl(char *buffer);
+char	*ft_inc(char *bf, char *remainder, int nl, int i);
 
-
-char	*get_next_line_bonus(int fd);
-
-#endif // GET_NEXT_LINE_H
+#endif
