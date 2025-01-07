@@ -112,7 +112,7 @@ int main()
 		free(test3);
 		i++;
 	}
-	printf("\n");
+	//printf("\n");
 	close(fd1);
 	close(fd2);
 	close(fd3);
