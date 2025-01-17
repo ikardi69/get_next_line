@@ -6,7 +6,7 @@
 /*   By: mteffahi <mteffahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 15:03:53 by mteffahi          #+#    #+#             */
-/*   Updated: 2025/01/05 15:54:57 by mteffahi         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:54:45 by mteffahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,24 @@ static char	*ft_next_line(char *buffer)
 	char	*rem;
 	int		i;
 	int		j;
-	
+
 	if (!buffer)
-		return (free(buffer), NULL);
+		return (free(buffer), buffer = NULL);
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	if (buffer[i] == '\0')
-		return (free(buffer), NULL);
+		return (free(buffer), buffer = NULL);
 	j = ft_strlen(buffer) - i;
 	rem = (char *)malloc(j);
 	if (!rem)
-		return (free(buffer), NULL);
+		return (free(buffer), buffer = NULL);
 	j = 0;
 	i++;
 	while (buffer[i])
 		rem[j++] = buffer[i++];
 	rem[j] = '\0';
-	return (free(buffer), rem);
+	return (free(buffer), buffer = NULL, rem);
 }
 
 char	*ft_inc(char *bf, char *buffer, int nl, int i)
@@ -83,15 +83,15 @@ static char	*ft_reading(char *buffer, char *remainder, int fd)
 		buffer[rd] = '\0';
 		remainder = ft_strjoin(remainder, buffer);
 		if (!remainder)
-			return (free(buffer), NULL);
+			return (free(buffer), buffer = NULL);
 		if (ft_nl_check(remainder))
 			break ;
 	}
-    if (rd < 0)
+	if (rd < 0)
 	{
-        return (free(remainder), NULL);
+		return (free(remainder), NULL);
 	}
-	return (remainder);	
+	return (remainder);
 }
 
 char	*get_next_line(int fd)
@@ -107,15 +107,14 @@ char	*get_next_line(int fd)
 		return (free(remainder), NULL);
 	remainder = ft_reading(buffer, remainder, fd);
 	free(buffer);
-    if (!remainder)
-        return (NULL);
-    line = ft_nl(remainder);
-    if (!line)
+	buffer = NULL;
+	if (!remainder)
+		return (NULL);
+	line = ft_nl(remainder);
+	if (!line)
 	{
-        return (free(remainder), remainder = NULL);
+		return (free(remainder), remainder = NULL);
 	}
-	//buffer = remainder;
-	//buffer = ft_nl(buffer);
 	remainder = ft_next_line(remainder);
 	return (line);
 }

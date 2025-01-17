@@ -6,7 +6,7 @@
 /*   By: mteffahi <mteffahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 16:20:00 by mteffahi          #+#    #+#             */
-/*   Updated: 2025/01/01 16:38:02 by mteffahi         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:57:44 by mteffahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ static char	*ft_next_line(char *buffer)
 	char	*rem;
 	int		i;
 	int		j;
-	
+
 	if (!buffer)
-		return (free(buffer), NULL);
+		return (free(buffer), buffer = NULL);
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	if (buffer[i] == '\0')
-		return (free(buffer), NULL);
+		return (free(buffer), buffer = NULL);
 	j = ft_strlen(buffer) - i;
 	rem = (char *)malloc(j + 1);
 	if (!rem)
-		return (free(buffer), NULL);
+		return (free(buffer), buffer = NULL);
 	j = 0;
 	i++;
 	while (buffer[i])
@@ -83,13 +83,13 @@ static char	*ft_reading(char *buffer, char *remainder, int fd)
 		buffer[rd] = '\0';
 		remainder = ft_strjoin(remainder, buffer);
 		if (!remainder)
-			return (free(buffer), NULL);
+			return (free(buffer), buffer = NULL);
 		if (ft_nl_check(remainder))
 			break ;
 	}
-    if (rd < 0)
-        return (free(remainder), NULL);
-	return (remainder);	
+	if (rd < 0)
+		return (free(remainder), NULL);
+	return (remainder);
 }
 
 char	*get_next_line(int fd)
@@ -105,13 +105,12 @@ char	*get_next_line(int fd)
 		return (free(remainder[fd]), NULL);
 	remainder[fd] = ft_reading(buffer, remainder[fd], fd);
 	free(buffer);
-    if (!remainder[fd])
-        return (NULL);
-    line = ft_nl(remainder[fd]);
-    if (!line)
-        return (free(remainder[fd]), remainder[fd] = NULL);
-	//buffer = remainder;
-	//buffer = ft_nl(buffer);
+	buffer = NULL;
+	if (!remainder[fd])
+		return (NULL);
+	line = ft_nl(remainder[fd]);
+	if (!line)
+		return (free(remainder[fd]), remainder[fd] = NULL);
 	remainder[fd] = ft_next_line(remainder[fd]);
 	return (line);
 }

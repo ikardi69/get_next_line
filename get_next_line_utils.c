@@ -6,7 +6,7 @@
 /*   By: mteffahi <mteffahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:24:32 by mteffahi          #+#    #+#             */
-/*   Updated: 2024/12/30 20:17:20 by mteffahi         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:58:37 by mteffahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,20 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1)
 	{
 		s1 = (char *)malloc(1);
-        if (!s1)
-            return (NULL);
+		if (!s1)
+			return (NULL);
 		s1[0] = '\0';
 	}
 	if (!s2)
-		return (free(s1), NULL);
+		return (free(s1), s1 = NULL);
 	size = ft_strlen(s1) + ft_strlen(s2);
 	result = (char *)malloc(size + 1);
 	if (!result)
-		return (free(s1), NULL);
+		return (free(s1), s1 = NULL);
 	ft_memcpy(result, s1, ft_strlen(s1));
 	ft_memcpy(result + ft_strlen(s1), s2, ft_strlen(s2));
 	result[size] = '\0';
-	return (free(s1), result);
-}
-
-char	*ft_strdup(const char *s)
-{
-	size_t	size;
-	char	*result;
-
-	size = ft_strlen(s);
-	result = (char *)malloc(size + 1);
-	if (!result)
-		return (NULL);
-	ft_memcpy(result, s, size);
-	result[size] = '\0';
-	return (result);
+	return (free(s1), s1 = NULL, result);
 }
 
 int	ft_strlen(const char *s)
