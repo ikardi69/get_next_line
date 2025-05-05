@@ -116,7 +116,7 @@ int main(void)
 
 
 <p align="center">
-  <h1>⚠️ Important Notes</h1>
+  <h1>🧪 Testing</h1>
 </p>
 
 The implementation has been tested with:
