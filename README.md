@@ -1,4 +1,4 @@
-<h1 align="center">📝 Get Next Line (GNL)</h1>
+<h1 align="center">📜 Get Next Line (GNL)</h1>
 
 A C function that reads a line from a file descriptor, handling multiple file descriptors efficiently.
 
