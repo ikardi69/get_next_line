@@ -1,5 +1,8 @@
 <h1 align="center">📜 Get Next Line (GNL)</h1>
 
+![Language](https://img.shields.io/badge/language-C-blue)
+![Version](https://img.shields.io/badge/version-16.3-orange)
+
 A C function that reads a line from a file descriptor, handling multiple file descriptors efficiently.
 
 <p align="center">
